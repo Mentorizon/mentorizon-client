@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom';
 
 const AppNavbar = () => {
     return (
-        <div className="navbar">
+        <div className="appNavbar">
             <Link to="/" className="logo">
                 LOGO {/* TODO: Replace with your logo */}
             </Link>
-            <div className="login">Login</div> {/* TODO: Add login handler */}
+            <Link to="/login" className="login">
+                Login {/* TODO: Add login handler */}
+            </Link>
         </div>
     )
 }

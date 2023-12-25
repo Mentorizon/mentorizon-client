@@ -22,8 +22,8 @@
   font-family: 'Times New Roman', serif;
 }
 
-/* Navbar */
-.navbar {
+/* AppNavbar */
+.appNavbar {
   position: fixed;
   top: 0;
   width: 100%;
@@ -35,7 +35,7 @@
   padding: 0.5rem 1rem;
 }
 
-.navbar .logo {
+.appNavbar .logo {
   border-radius: 50%;
   background-color: white;
   width: 2.5rem;
@@ -46,13 +46,94 @@
   margin-left: 2rem;
 }
 
-.navbar .login {
+.appNavbar .login {
   cursor: pointer;
   margin-right: 2rem;
   color: var(--deep-sky-blue);
   font-size: 3vh;
 }
 
-.navbar .login:hover {
+.appNavbar .login:hover {
   color: var(--royal-blue);
+}
+
+ /*LogIn */
+.loginPage {
+  background-color: var(--pale-rose);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginFormContainer {
+  width: 40rem !important;
+}
+
+.loginForm {
+  padding: 2rem !important;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  background-color: var(--deep-sky-blue);
+  color: var(--text-color-light);
+  border-radius: 8px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  flex-direction: column; /* Stack the buttons vertically */
+  align-items: center;
+}
+
+.buttonGroup .btn-custom {
+  margin: 0.5rem 0; /* This adds space above and below each button */
+  background-color: var(--royal-blue);
+  color: var(--text-color-light);
+  border: none; /* Remove border */
+  width: 20rem !important;
+}
+
+.buttonGroup .btn-google {
+  background-color: #DB4437;
+}
+
+.accountOptions {
+  text-align: center; /* Center the "Don't have an account?" text */
+  margin-top: 0.5rem; /* Space from the form above */
+}
+
+.noAccount {
+  margin: 2rem; /* Space between the "Don't have an account?" text and the buttons below */
+}
+
+.options {
+  display: flex;
+  justify-content: space-evenly; /* This will space out the two buttons evenly */
+}
+
+.optionButton, .linkButton {
+  padding: 0.625rem 1.25rem;
+  margin: 0.5rem; /* Space between buttons */
+  border: none;
+  border-radius: 0.25rem; /* Rounded corners */
+  background-color: var(--royal-blue);
+  color: var(--text-color-light);
+  text-align: center; /* Center the text */
+  display: inline-block; /* Make the link behave like a button */
+  text-decoration: none; /* Remove underline from links */
+  cursor: pointer; /* Change cursor to indicate clickable */
+  font-size: 1rem;
+}
+
+/* Hover effect */
+.linkButton:hover, .optionButton:hover {
+  background-color: #0056b3;
+  text-decoration: none;
+}
+
+@media (max-width: 48em) {
+  .optionButton, .linkButton {
+    padding: 0.5rem 1rem; /* Slightly smaller padding on smaller screens */
+    font-size: 0.9rem; /* Slightly smaller font size on smaller screens */
+  }
 }
