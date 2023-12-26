@@ -113,7 +113,7 @@
 
 .optionButton, .linkButton {
   padding: 0.625rem 1.25rem;
-  margin: 0.5rem; /* Space between buttons */
+  margin: -0.5rem; /* Space between buttons */
   border: none;
   border-radius: 0.25rem; /* Rounded corners */
   background-color: var(--royal-blue);
