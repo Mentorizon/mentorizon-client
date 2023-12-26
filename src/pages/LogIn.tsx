@@ -1,12 +1,12 @@
 import '../App.css';
 import AppNavbar from "../components/common/AppNavbar";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
-import {useState} from "react";
+import React, {useState} from "react";
 import { Link } from 'react-router-dom';
 
 const LogIn = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     return (
         <div className="loginPage">
@@ -22,7 +22,7 @@ const LogIn = () => {
                             id="email"
                             required
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                             autoComplete="email"
                         />
                     </FormGroup>
@@ -35,7 +35,7 @@ const LogIn = () => {
                             id="password"
                             required
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                             autoComplete="password"
                         />
                     </FormGroup>
