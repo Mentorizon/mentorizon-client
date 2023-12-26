@@ -41,8 +41,8 @@ const LogIn = () => {
                     </FormGroup>
 
                     <div className="buttonGroup">
-                        <Button type="submit" className="btn-custom">Login</Button>
-                        <Button className="btn-custom btn-google">Login with Google</Button>
+                        <Button type="submit" className="btn-custom">Log in</Button>
+                        <Button className="btn-custom btn-google">Log in with Google</Button>
                     </div>
                 </Form>
                 <div className="accountOptions">
