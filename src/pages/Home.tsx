@@ -1,4 +1,3 @@
-import '../App.css';
 import AppNavbar from "../components/common/AppNavbar";
 
 const Home = () => {

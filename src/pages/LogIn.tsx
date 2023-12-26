@@ -1,4 +1,3 @@
-import '../App.css';
 import AppNavbar from "../components/common/AppNavbar";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import React, {useState} from "react";
@@ -46,7 +45,7 @@ const LogIn = () => {
                     </div>
                 </Form>
                 <div className="accountOptions">
-                    <div className="noAccount">Don't have an account?</div>
+                    <div className="authSuggestion">Don't have an account?</div>
                     <div className="options">
                         <Link to="/signup-mentee" className="optionButton linkButton">
                             Sign up as a mentee
