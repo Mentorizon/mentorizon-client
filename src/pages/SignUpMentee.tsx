@@ -9,13 +9,33 @@ const SignUpMentee = () => {
     const [password, setPassword] = useState<string>("");
     const [repeatPassword, setRepeatPassword] = useState<string>("");
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (password.length < 8) {
             alert("Password should contain at least 8 characters!")
         } else if (password !== repeatPassword) {
             alert("Passwords do not match!");
+        }
+
+        try {
+            const response = await fetch('/mentees', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({name, email, password}),
+            });
+
+            if (response.ok) {
+                alert("Mentee created successfully!");
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message);
+                console.log(errorData.message);
+            }
+        } catch (error) {
+            alert("An error occurred while signing up.");
         }
     };
 
