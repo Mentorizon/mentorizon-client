@@ -1,12 +1,11 @@
-import '../App.css';
 import AppNavbar from "../components/common/AppNavbar";
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
-import {useState} from "react";
+import React, {useState} from "react";
 import { Link } from 'react-router-dom';
 
 const LogIn = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     return (
         <div className="loginPage">
@@ -22,7 +21,7 @@ const LogIn = () => {
                             id="email"
                             required
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                             autoComplete="email"
                         />
                     </FormGroup>
@@ -35,18 +34,18 @@ const LogIn = () => {
                             id="password"
                             required
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                             autoComplete="password"
                         />
                     </FormGroup>
 
                     <div className="buttonGroup">
-                        <Button type="submit" className="btn-custom">Login</Button>
-                        <Button className="btn-custom btn-google">Login with Google</Button>
+                        <Button type="submit" className="btn-custom">Log in</Button>
+                        <Button className="btn-custom btn-google">Log in with Google</Button>
                     </div>
                 </Form>
                 <div className="accountOptions">
-                    <div className="noAccount">Don't have an account?</div>
+                    <div className="authSuggestion">Don't have an account?</div>
                     <div className="options">
                         <Link to="/signup-mentee" className="optionButton linkButton">
                             Sign up as a mentee

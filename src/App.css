@@ -68,14 +68,21 @@
 
 .loginFormContainer {
   width: 40rem !important;
+  margin-bottom: 0.5rem !important;
+  margin-top: 65px;
 }
 
 .loginForm {
-  padding: 2rem !important;
+  padding: 1rem 2rem !important;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   background-color: var(--deep-sky-blue);
   color: var(--text-color-light);
   border-radius: 8px;
+}
+
+.loginForm input {
+  height: 2rem;
+  padding: 0.25rem;
 }
 
 .buttonGroup {
@@ -99,10 +106,9 @@
 
 .accountOptions {
   text-align: center; /* Center the "Don't have an account?" text */
-  margin-top: 0.5rem; /* Space from the form above */
 }
 
-.noAccount {
+.authSuggestion {
   margin: 2rem; /* Space between the "Don't have an account?" text and the buttons below */
 }
 
@@ -113,7 +119,7 @@
 
 .optionButton, .linkButton {
   padding: 0.625rem 1.25rem;
-  margin: 0.5rem; /* Space between buttons */
+  margin: -0.5rem; /* Space between buttons */
   border: none;
   border-radius: 0.25rem; /* Rounded corners */
   background-color: var(--royal-blue);
