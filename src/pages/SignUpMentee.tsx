@@ -19,7 +19,7 @@ const SignUpMentee = () => {
         }
 
         try {
-            const response = await fetch('/mentees', {
+            const response = await fetch('http://localhost:8080/mentees', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

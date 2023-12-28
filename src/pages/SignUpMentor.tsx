@@ -12,18 +12,56 @@ const SignUpMentor = () => {
     const [cvFile, setCvFile] = useState<File | null>(null);
     const [contactInfo, setContactInfo] = useState<string>("");
 
-    const handleCvChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files ? event.target.files[0] : null;
-        setCvFile(file);
+    const getBase64 = (file: Blob): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+    const handleCvChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            const file = event.target.files[0];
+            setCvFile(file);
+        }
+    };
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (password.length < 8) {
             alert("Password should contain at least 8 characters!")
         } else if (password !== repeatPassword) {
             alert("Passwords do not match!");
+        }
+
+        if (cvFile) {
+            try {
+                const cvBase64withPrefix = await getBase64(cvFile);
+                const cvBase64 = cvBase64withPrefix.replace("data:application/pdf;base64,", "");
+                console.log("cvBase64: " + cvBase64);
+                const response = await fetch('http://localhost:8080/mentors', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({name, email, password, jobTitle, cvBase64, contactInfo}),
+                });
+
+                if (response.ok) {
+                    alert("Mentor created successfully!");
+                } else {
+                    const errorData = await response.json();
+                    alert(errorData.message);
+                    console.log(errorData.message);
+                }
+            } catch (error) {
+                console.error('Error in base64 conversion:', error);
+            }
         }
     };
 
