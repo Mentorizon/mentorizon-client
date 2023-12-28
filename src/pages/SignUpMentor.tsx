@@ -130,7 +130,7 @@ const SignUpMentor = () => {
                         <div>
                             <div className="authSuggestion">Already have an account?</div>
                             <Link to="/login" className="optionButton linkButton">
-                                Sign up as a mentee
+                                Log in
                             </Link>
                         </div>
 
