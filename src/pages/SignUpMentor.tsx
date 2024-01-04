@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import AppNavbar from "../components/common/AppNavbar";
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
 import {Link} from "react-router-dom";
@@ -6,6 +6,8 @@ import {Link} from "react-router-dom";
 const SignUpMentor = () => {
     const [name, setName] = useState<string>("");
     const [jobTitle, setJobTitle] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [yearsOfExperience, setYearsOfExperience] = useState<number>();
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [repeatPassword, setRepeatPassword] = useState<string>("");
@@ -49,7 +51,8 @@ const SignUpMentor = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({name, email, password, jobTitle, cvBase64, contactInfo}),
+                    body: JSON.stringify({name, email, password, jobTitle, description, yearsOfExperience, cvBase64,
+                        contactInfo}),
                 });
 
                 if (response.ok) {
@@ -93,6 +96,31 @@ const SignUpMentor = () => {
                             value={jobTitle}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setJobTitle(e.target.value)}
                             autoComplete="jobTitle"
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="description">Tell us about yourself</Label>
+                        <Input
+                            type="text"
+                            name="description"
+                            id="description"
+                            required
+                            value={description}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
+                            autoComplete="description"
+                        />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="yearsOfExperience">Years of experience</Label>
+                        <Input
+                            type="number"
+                            name="yearsOfExperience"
+                            id="yearsOfExperience"
+                            required
+                            value={yearsOfExperience}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setYearsOfExperience(Number(e.target.value))}
                         />
                     </FormGroup>
 
