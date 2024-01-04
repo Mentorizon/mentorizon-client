@@ -93,9 +93,9 @@ const SignUpMentor = () => {
                             name="jobTitle"
                             id="jobTitle"
                             required
+                            maxLength={100}
                             value={jobTitle}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setJobTitle(e.target.value)}
-                            autoComplete="jobTitle"
                         />
                     </FormGroup>
 
@@ -106,9 +106,10 @@ const SignUpMentor = () => {
                             name="description"
                             id="description"
                             required
+                            minLength={10}
+                            maxLength={200}
                             value={description}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
-                            autoComplete="description"
                         />
                     </FormGroup>
 
@@ -146,7 +147,7 @@ const SignUpMentor = () => {
                             required
                             value={password}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                            autoComplete="password"
+                            autoComplete="new-password"
                         />
                     </FormGroup>
 
@@ -159,7 +160,7 @@ const SignUpMentor = () => {
                             required
                             value={repeatPassword}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)}
-                            autoComplete="repeatPassword"
+                            autoComplete="new-password"
                         />
                     </FormGroup>
 
@@ -171,7 +172,6 @@ const SignUpMentor = () => {
                             id="cvFile"
                             required
                             onChange={handleCvChange}
-                            autoComplete="cvFile"
                         />
                     </FormGroup>
 
