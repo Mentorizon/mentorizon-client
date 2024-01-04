@@ -236,3 +236,8 @@
 .mentor-footer button.apply {
   background-color: #28a745;
 }
+
+/* Select domain */
+.basic-multi-select {
+  color: var(--text-color-dark);
+}

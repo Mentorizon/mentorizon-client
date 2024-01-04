@@ -2,6 +2,8 @@ import React, { useState} from "react";
 import AppNavbar from "../components/common/AppNavbar";
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
 import {Link} from "react-router-dom";
+import SelectDomain from "../components/feature-specific/SelectDomain";
+import { Option } from "../types";
 
 const SignUpMentor = () => {
     const [name, setName] = useState<string>("");
@@ -13,6 +15,7 @@ const SignUpMentor = () => {
     const [repeatPassword, setRepeatPassword] = useState<string>("");
     const [cvFile, setCvFile] = useState<File | null>(null);
     const [contactInfo, setContactInfo] = useState<string>("");
+    const [selectedDomainIds, setSelectedDomainIds] = useState<string[]>([]);
 
     const getBase64 = (file: Blob): Promise<string> => {
         return new Promise((resolve, reject) => {
@@ -23,7 +26,6 @@ const SignUpMentor = () => {
         });
     };
 
-
     const handleCvChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
@@ -31,6 +33,10 @@ const SignUpMentor = () => {
         }
     };
 
+    const handleDomainsChange = (selectedDomains: Option[]) => {
+        const domainIds = selectedDomains.map(domain => domain.value);
+        setSelectedDomainIds(domainIds);
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -51,8 +57,17 @@ const SignUpMentor = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({name, email, password, jobTitle, description, yearsOfExperience, cvBase64,
-                        contactInfo}),
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        jobTitle,
+                        description,
+                        yearsOfExperience,
+                        domainIds: selectedDomainIds,
+                        cvBase64,
+                        contactInfo
+                    }),
                 });
 
                 if (response.ok) {
@@ -123,6 +138,11 @@ const SignUpMentor = () => {
                             value={yearsOfExperience}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setYearsOfExperience(Number(e.target.value))}
                         />
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="domains">Domains of Expertise</Label>
+                        <SelectDomain onDomainsChange={handleDomainsChange} />
                     </FormGroup>
 
                     <FormGroup>

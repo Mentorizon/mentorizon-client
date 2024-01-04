@@ -7,3 +7,13 @@ export interface Mentor {
     domains: string[];
     rating: number;
 }
+
+export interface Domain {
+    id: string;
+    name: string;
+}
+
+export interface Option {
+    value: string;
+    label: string;
+}
