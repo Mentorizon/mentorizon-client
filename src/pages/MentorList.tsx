@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import MentorCard from '../components/feature-specific/MentorCard';
-import AppNavbar from '../components/common/AppNavbar';
 import { Mentor } from '../types';
+import MentorFilters from "../components/feature-specific/MentorFilters";
+import Layout from "../components/common/Layout";
 
 const MentorListPage: React.FC = () => {
     const [mentors, setMentors] = useState<Mentor[]>([]);
@@ -16,15 +17,21 @@ const MentorListPage: React.FC = () => {
         fetchMentors();
     }, []);
 
+    const handleFilterChange = () => {
+
+    }
+
     return (
-        <div className="mentor-list-page">
-            <AppNavbar />
-            <div className="mentor-list-container">
-                {mentors.map((mentor: Mentor) => (
-                    <MentorCard key={mentor.id} mentor={mentor} />
-                ))}
+        <Layout>
+            <div className="mentor-list-page">
+                <MentorFilters onFilterChange={handleFilterChange}/>
+                <div className="mentor-list-container">
+                    {mentors.map((mentor: Mentor) => (
+                        <MentorCard key={mentor.id} mentor={mentor} />
+                    ))}
+                </div>
             </div>
-        </div>
+        </Layout>
     );
 };
 

@@ -69,7 +69,6 @@
 .loginFormContainer {
   width: 40rem !important;
   margin-bottom: 0.5rem !important;
-  margin-top: 65px;
 }
 
 .loginForm {
@@ -146,7 +145,6 @@
 
 /*Mentor List*/
 .mentor-list-container {
-  margin-top: 5rem; /* Navbar height + some space */
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -240,4 +238,9 @@
 /* Select domain */
 .basic-multi-select {
   color: var(--text-color-dark);
+}
+
+/* Layout */
+.main-content-container {
+  padding-top: 5rem; /*65px;*/
 }
