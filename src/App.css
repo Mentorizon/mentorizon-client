@@ -33,6 +33,7 @@
   background-color: var(--royal-blue);
   color: var(--pale-rose);
   padding: 0.5rem 1rem;
+  height: 4rem;
 }
 
 .appNavbar .logo {
@@ -242,5 +243,9 @@
 
 /* Layout */
 .main-content-container {
-  padding-top: 5rem; /*65px;*/
+  padding-top: 4rem;
+}
+
+.filters {
+  padding: 1rem;
 }
