@@ -190,11 +190,26 @@
   color: var(--text-color-dark);
   padding: 1em;
   border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  height: 10em;
   margin-bottom: 1em;
 }
 
+.mentor-body p {
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  max-height: 7em;
+}
+
 .mentor-domains {
-  margin: 0.625rem 0;
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  right: 1em;
 }
 
 .mentor-domains .domain {
@@ -205,6 +220,8 @@
   margin-right: 0.3125rem;
   border-radius: 15px;
   font-size: 0.75rem;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .mentor-rating {
@@ -247,5 +264,9 @@
 }
 
 .filters {
-  padding: 1rem;
+  position: sticky;
+  top: 4rem;
+  background-color: white;
+  z-index: 10;
+  padding: 1em;
 }
