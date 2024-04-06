@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import { Button, Form, FormGroup, Label, Input, Container, Row, Col } from 'reactstrap';
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import Layout from "../components/common/Layout";
+import { toast, ToastContainer } from 'react-toastify';
 
 type RouteParams = {
     mentorId: string;
@@ -17,8 +18,21 @@ interface MentorApplicationFormData {
     goal: string;
 }
 
+type FieldErrors = {
+    [K in keyof MentorApplicationFormData]?: boolean;
+};
+
+const fieldLabels: { [K in keyof MentorApplicationFormData]?: string } = {
+    reason: "the reason for choosing this mentor",
+    motivation: "your motivation for seeking mentorship",
+    selfDescription: "a description about yourself",
+    currentSkills: "your current level of expertise",
+    goal: "your goals for this mentorship",
+};
+
 const MentorApplication: React.FC = () => {
     const { mentorId } = useParams<RouteParams>();
+    const navigate = useNavigate();
 
     const [application, setApplication] = useState<MentorApplicationFormData>({
         mentorId: mentorId || '',
@@ -30,9 +44,12 @@ const MentorApplication: React.FC = () => {
         goal: '',
     });
 
+    const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
         setApplication({ ...application, [name]: value });
+        setFieldErrors({ ...fieldErrors, [name]: false });
     };
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -40,29 +57,55 @@ const MentorApplication: React.FC = () => {
 
         const minInputLengths = {
             reason: 20,
-            motivation: 20,
-            selfDescription: 50,
-            currentSkills: 20,
+            motivation: 50,
+            selfDescription: 20,
+            currentSkills: 10,
             goal: 20,
         };
 
-        // Check if all inputs meet their minimum length requirement
         let isFormValid = true;
+        let errors: FieldErrors = {};
         Object.entries(minInputLengths).forEach(([key, minLength]) => {
-            if (application[key as keyof MentorApplicationFormData].length < minLength) {
+            const fieldKey = key as keyof MentorApplicationFormData;
+
+            if (application[fieldKey]?.length < minLength) {
                 isFormValid = false;
-                console.error(`${key} needs to be at least ${minLength} characters long.`);
+                errors[fieldKey] = true; // Mark this field as having an error
+
+                // Using fieldLabels with proper type assertion
+                const errorMessage = `Please ensure ${fieldLabels[fieldKey]} is at least ${minLength} characters long.`;
+                toast.error(errorMessage, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             }
         });
 
+        setFieldErrors(errors);
+
         // Prevent submission if form is invalid
         if (!isFormValid) {
-            alert("Please fill out all fields correctly before submitting.");
             return;
         }
 
         // TODO: Submit the application to the database
         console.log("Submitting application:", JSON.stringify(application));
+
+        toast.success('Your application has been successfully submitted for review. Thank you!', {
+            position: "top-right",
+            autoClose: 3000,
+            onClose: () => navigate("/mentors"),
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     };
 
     return (
@@ -80,6 +123,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.reason}
                                     onChange={handleChange}
                                     required
+                                    className={fieldErrors.reason ? 'error' : ''}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -91,6 +135,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.motivation}
                                     onChange={handleChange}
                                     required
+                                    className={fieldErrors.motivation ? 'error' : ''}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -102,6 +147,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.currentSkills}
                                     onChange={handleChange}
                                     required
+                                    className={fieldErrors.currentSkills ? 'error' : ''}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -113,6 +159,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.goal}
                                     onChange={handleChange}
                                     required
+                                    className={fieldErrors.goal ? 'error' : ''}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -124,6 +171,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.selfDescription}
                                     onChange={handleChange}
                                     required
+                                    className={fieldErrors.selfDescription ? 'error' : ''}
                                 />
                             </FormGroup>
 
@@ -138,6 +186,7 @@ const MentorApplication: React.FC = () => {
                         </Form>
                     </Col>
                 </Row>
+                <ToastContainer />
             </Container>
         </Layout>
     );

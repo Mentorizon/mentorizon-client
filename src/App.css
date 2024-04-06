@@ -122,7 +122,7 @@
   margin: -0.5rem; /* Space between buttons */
   border: none;
   border-radius: 0.25rem; /* Rounded corners */
-  background-color: var(--royal-blue);
+  background-color: var(--royal-blue) !important;
   color: var(--text-color-light);
   text-align: center; /* Center the text */
   display: inline-block; /* Make the link behave like a button */
@@ -269,4 +269,9 @@
   background-color: white;
   z-index: 10;
   padding: 1em;
+}
+
+/* Mentor Application */
+.error {
+  border: 1px solid red !important;
 }
