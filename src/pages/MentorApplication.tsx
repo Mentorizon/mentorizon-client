@@ -111,7 +111,7 @@ const MentorApplication: React.FC = () => {
     return (
         <Layout>
             <Container>
-                <Row className="justify-content-center">
+                <Row className="justify-content-center mentor-application-container">
                     <Col md="6">
                         <Form onSubmit={handleSubmit}>
                             <FormGroup>
@@ -175,7 +175,7 @@ const MentorApplication: React.FC = () => {
                                 />
                             </FormGroup>
 
-                            <div className="options">
+                            <div className="options mentor-application-buttons">
                                 <Link to="/mentors" className="optionButton linkButton">
                                     Back to mentors
                                 </Link>
