@@ -6,6 +6,7 @@ import LogIn from "./pages/LogIn";
 import SignUpMentee from "./pages/SignUpMentee";
 import SignUpMentor from "./pages/SignUpMentor";
 import MentorList from "./pages/MentorList";
+import MentorApplication from "./pages/MentorApplication";
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false)
@@ -18,6 +19,7 @@ function App() {
                 <Route exact path="/signup-mentee" element={<SignUpMentee/>}></Route>
                 <Route exact path="/apply-mentor" element={<SignUpMentor/>}></Route>
                 <Route exact path="/mentors" element={<MentorList/>}></Route>
+                <Route path="/apply/:mentorId" element={<MentorApplication />} />
             </Routes>
         </Router>
     );

@@ -1,6 +1,11 @@
 import { Mentor } from '../../types';
+import {useNavigate} from "react-router-dom";
 
 const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
+    const navigate = useNavigate();
+
+    const handleApplyClick = () => navigate(`/apply/${mentor.id}`);
+
     return (
         <div className="mentor-card">
             <div className="mentor-header">
@@ -26,7 +31,7 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
             </div>
             <div className="mentor-footer">
                 <button className="view-profile">View Profile</button>
-                <button className="apply">Apply</button>
+                <button className="apply" onClick={handleApplyClick}>Apply</button>
             </div>
         </div>
     );
