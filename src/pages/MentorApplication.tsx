@@ -36,7 +36,7 @@ const MentorApplication: React.FC = () => {
 
     const [application, setApplication] = useState<MentorApplicationFormData>({
         mentorId: mentorId || '',
-        menteeId: 'mentee-id',
+        menteeId: 'd3a292cd-008d-413c-b667-7a15229bd022',
         reason: '',
         motivation: '',
         selfDescription: '',
@@ -52,7 +52,7 @@ const MentorApplication: React.FC = () => {
         setFieldErrors({ ...fieldErrors, [name]: false });
     };
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         const minInputLengths = {
@@ -93,19 +93,57 @@ const MentorApplication: React.FC = () => {
             return;
         }
 
-        // TODO: Submit the application to the database
-        console.log("Submitting application:", JSON.stringify(application));
+        try {
+            const response = await fetch('http://localhost:8080/applications', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    menteeId: application.menteeId, // TODO: change to real
+                    mentorId: application.mentorId,
+                    reason: application.reason,
+                    motivation: application.motivation,
+                    selfDescription: application.selfDescription,
+                    currentSkills: application.currentSkills,
+                    goal: application.goal,
+                }),
+            });
 
-        toast.success('Your application has been successfully submitted for review. Thank you!', {
-            position: "top-right",
-            autoClose: 3000,
-            onClose: () => navigate("/mentors"),
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+            if (!response.ok) {
+                const errorMessage = await response.text();
+
+                switch(errorMessage) {
+                    case 'You have already submitted an application to this mentor.':
+                        toast.error(errorMessage);
+                        break;
+                    case 'You are already being mentored by this mentor.':
+                        toast.error(errorMessage);
+                        break;
+                    default:
+                        toast.error('An error occurred. Please try again.');
+                }
+                return;
+            }
+
+            const result = await response.json();
+            console.log('Application submitted:', result);
+            toast.success('Your application has been successfully submitted for review. Thank you!', {
+                position: 'top-right',
+                autoClose: 3000,
+                onClose: () => navigate('/mentors'),
+            });
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error('Error: ' + error.message);
+            } else {
+                toast.error('An unexpected error occurred. Please try again.', {
+                    position: 'top-right',
+                    autoClose: 5000,
+                });
+                toast.error('An unexpected error occurred.');
+            }
+        }
     };
 
     return (
