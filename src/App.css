@@ -283,3 +283,35 @@
 .mentor-application-buttons {
   padding-top: 1.5rem;
 }
+
+/* Applications */
+.applications-table {
+  margin-top: 4rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: 95% !important;
+}
+
+.mentee-column {
+  width: 20%;
+}
+
+.mentor-column {
+  width: 20%;
+}
+
+.status-column {
+  width: 10%;
+}
+
+.created-column {
+  width: 15%;
+}
+
+.updated-column {
+  width: 15%;
+}
+
+.actions-column {
+  width: 15%;
+}
