@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Table, Button } from 'reactstrap';
+import ConfirmModal from "../common/ConfirmModal";
 
 export interface Application {
     id: string;
@@ -58,6 +59,52 @@ const ApplicationRow: React.FC<ApplicationRowProps> = ({
                                                            handleDeny,
                                                            handleDelete,
                                                        }) => {
+    const [modalShow, setModalShow] = useState(false);
+    const [intendedAction, setIntendedAction] = useState<'approve' | 'deny' | 'cancel' | null>(null);
+
+    const handleOpenApproveModal = () => {
+        setIntendedAction('approve');
+        setModalShow(true);
+    };
+
+    const handleOpenDenyModal = () => {
+        setIntendedAction('deny');
+        setModalShow(true);
+    };
+
+    const handleOpenCancelModal = () => {
+        setIntendedAction('cancel');
+        setModalShow(true);
+    };
+
+    const handleConfirmAction = () => {
+        handleCloseModal();
+        if (intendedAction === 'approve') {
+            handleApprove && handleApprove(application.id);
+        } else if (intendedAction === 'deny') {
+            handleDeny && handleDeny(application.id);
+        } else if (intendedAction === 'cancel') {
+            handleDelete && handleDelete(application.id);
+        }
+        setIntendedAction(null);
+    };
+    const handleCloseModal = () => setModalShow(false);
+
+    const handleConfirmCancellingApplication = () => {
+        handleCloseModal();
+        handleDelete && handleDelete(application.id);
+    };
+
+    const handleConfirmApprovingApplication = () => {
+        handleCloseModal();
+        handleApprove && handleApprove(application.id);
+    };
+
+    const handleConfirmDenyingApplication = () => {
+        handleCloseModal();
+        handleDeny && handleDeny(application.id);
+    };
+
     return (
         <tr>
             <td>{application.mentee.name}</td>
@@ -69,17 +116,29 @@ const ApplicationRow: React.FC<ApplicationRowProps> = ({
                 <td>
                     {application.status === 'PENDING' && (
                         <>
-                            <Button color="success" onClick={() => handleApprove(application.id)}>Approve</Button>{' '}
-                            <Button color="danger" onClick={() => handleDeny(application.id)}>Deny</Button>
+                            <Button color="success" onClick={handleOpenApproveModal}>Approve</Button>{' '}
+                            <Button color="danger" onClick={handleOpenDenyModal}>Deny</Button>
                         </>
                     )}
                 </td>
             )}
             {role === 'mentee' && (
                 <td>
-                    <Button color="danger" onClick={() => handleDelete && handleDelete(application.id)}>Delete</Button>
+                    <Button color="danger" onClick={handleOpenCancelModal}>Cancel</Button>
                 </td>
             )}
+            <ConfirmModal
+                show={modalShow}
+                question={
+                    intendedAction === 'approve'
+                        ? "Are you sure you want to approve this application?"
+                        : intendedAction === 'deny'
+                            ? "Are you sure you want to deny this application?"
+                            : "Are you sure you want to cancel your application?"
+                }
+                handleClose={handleCloseModal}
+                handleConfirm={handleConfirmAction}
+            />
         </tr>
     );
 }
