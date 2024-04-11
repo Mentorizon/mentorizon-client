@@ -1,42 +1,113 @@
 import React, {useState} from "react";
 import AppNavbar from "../components/common/AppNavbar";
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Layout from "../components/common/Layout";
+import { toast, ToastContainer } from 'react-toastify';
+
+interface SignUpFormData {
+    name: string;
+    email: string;
+    password: string;
+    repeatPassword: string;
+}
+
+type FieldErrors = {
+    [K in keyof SignUpFormData]?: string;
+};
+
+type FieldValidationRule<T> = {
+    validate: (value: any, formData: T) => boolean;
+    message: string;
+};
+
+const validationRules: Record<keyof SignUpFormData, FieldValidationRule<SignUpFormData>> = {
+    name: {
+        validate: value => value.length >= 2,
+        message: 'Name should contain at least 2 characters!',
+    },
+    email: {
+        validate: value => /^\S+@\S+\.\S+$/.test(value),
+        message: 'Email should be valid!',
+    },
+    password: {
+        validate: value => value.length >= 8,
+        message: 'Password should contain at least 8 characters!',
+    },
+    repeatPassword: {
+        validate: (value, formData) => value === formData.password,
+        message: 'Passwords do not match!',
+    },
+};
 
 const SignUpMentee = () => {
-    const [name, setName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [repeatPassword, setRepeatPassword] = useState<string>("");
+    const [formData, setFormData] = useState<SignUpFormData>({
+        name: '',
+        email: '',
+        password: '',
+        repeatPassword: '',
+    });
+    const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+    const navigate = useNavigate();
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        setFieldErrors({ ...fieldErrors, [name]: '' });
+    };
+
+    const validateForm = (): boolean => {
+        let isValid = true;
+        let newFieldErrors: FieldErrors = {};
+
+        (Object.keys(validationRules) as Array<keyof typeof validationRules>).forEach(field => {
+            const { validate, message } = validationRules[field];
+            if (!validate(formData[field], formData)) {
+                isValid = false;
+                newFieldErrors[field] = message;
+                toast.error(message);
+            }
+        });
+
+        setFieldErrors(newFieldErrors);
+
+        return isValid;
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (password.length < 8) {
-            alert("Password should contain at least 8 characters!")
-        } else if (password !== repeatPassword) {
-            alert("Passwords do not match!");
-        }
+        toast.dismiss();
+
+        if (!validateForm())
+            return;
 
         try {
-            const response = await fetch('http://localhost:8080/mentees', {
+            const response = await fetch('http://localhost:8080/register/mentee', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({name, email, password}),
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    password: formData.password,
+                }),
             });
 
-            if (response.ok) {
-                alert("Mentee created successfully!");
+            if (!response.ok) {
+                const errorData = await response.text();
+                toast.error(errorData);
             } else {
-                const errorData = await response.json();
-                alert(errorData.message);
-                console.log(errorData.message);
+                toast.success('You have successfully registered!', {
+                    autoClose: 3000,
+                    onClose: () => {
+                        navigate('/login');
+                    },
+                });
             }
         } catch (error) {
-            alert("An error occurred while signing up.");
+            toast.error('An error occurred while signing up.');
         }
     };
 
@@ -56,10 +127,11 @@ const SignUpMentee = () => {
                                 type="text"
                                 name="name"
                                 id="name"
-                                required
-                                value={name}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                                value={formData.name}
+                                onChange={handleInputChange}
                                 autoComplete="name"
+                                required
+                                className={fieldErrors.name ? 'incorrect-input' : ''}
                             />
                         </FormGroup>
 
@@ -69,10 +141,11 @@ const SignUpMentee = () => {
                                 type="email"
                                 name="email"
                                 id="email"
-                                required
-                                value={email}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                                value={formData.email}
+                                onChange={handleInputChange}
                                 autoComplete="email"
+                                required
+                                className={fieldErrors.email ? 'incorrect-input' : ''}
                             />
                         </FormGroup>
 
@@ -82,10 +155,11 @@ const SignUpMentee = () => {
                                 type="password"
                                 name="password"
                                 id="password"
-                                required
-                                value={password}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                                value={formData.password}
+                                onChange={handleInputChange}
                                 autoComplete="password"
+                                required
+                                className={fieldErrors.password ? 'incorrect-input' : ''}
                             />
                         </FormGroup>
 
@@ -95,10 +169,10 @@ const SignUpMentee = () => {
                                 type="password"
                                 name="repeatPassword"
                                 id="repeatPassword"
+                                value={formData.repeatPassword}
+                                onChange={handleInputChange}
                                 required
-                                value={repeatPassword}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRepeatPassword(e.target.value)}
-                                autoComplete="repeatPassword"
+                                className={fieldErrors.repeatPassword ? 'incorrect-input' : ''}
                             />
                         </FormGroup>
 
@@ -128,6 +202,7 @@ const SignUpMentee = () => {
                             </div>
                         </div>
                     </div>
+                    <ToastContainer />
                 </Container>
             </div>
         </Layout>

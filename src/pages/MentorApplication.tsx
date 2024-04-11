@@ -161,7 +161,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.reason}
                                     onChange={handleChange}
                                     required
-                                    className={fieldErrors.reason ? 'error' : ''}
+                                    className={fieldErrors.reason ? 'incorrect-input' : ''}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -173,7 +173,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.motivation}
                                     onChange={handleChange}
                                     required
-                                    className={fieldErrors.motivation ? 'error' : ''}
+                                    className={fieldErrors.motivation ? 'incorrect-input' : ''}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -185,7 +185,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.currentSkills}
                                     onChange={handleChange}
                                     required
-                                    className={fieldErrors.currentSkills ? 'error' : ''}
+                                    className={fieldErrors.currentSkills ? 'incorrect-input' : ''}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -197,7 +197,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.goal}
                                     onChange={handleChange}
                                     required
-                                    className={fieldErrors.goal ? 'error' : ''}
+                                    className={fieldErrors.goal ? 'incorrect-input' : ''}
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -209,7 +209,7 @@ const MentorApplication: React.FC = () => {
                                     value={application.selfDescription}
                                     onChange={handleChange}
                                     required
-                                    className={fieldErrors.selfDescription ? 'error' : ''}
+                                    className={fieldErrors.selfDescription ? 'incorrect-input' : ''}
                                 />
                             </FormGroup>
 

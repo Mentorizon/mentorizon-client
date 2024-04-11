@@ -272,7 +272,7 @@
 }
 
 /* Mentor Application */
-.error {
+.incorrect-input {
   border: 1px solid red !important;
 }
 

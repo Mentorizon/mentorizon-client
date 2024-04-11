@@ -1,18 +1,61 @@
 import { Button, Container, Form, FormGroup, Input, Label } from "reactstrap";
 import React, {useState} from "react";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Layout from "../components/common/Layout";
+import {toast, ToastContainer} from "react-toastify";
+import {jwtDecode} from 'jwt-decode';
+import AuthStorage from "../services/AuthStorage";
+
+interface DecodedToken {
+    sub: string;
+    userId: string;
+    roles: string[];
+    iat: number;
+    exp: number;
+}
 
 const LogIn = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('http://localhost:8080/authenticate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.text();
+                toast.error(errorData || 'Invalid credentials.');
+                return;
+            }
+
+            const data = await response.json();
+            const decodedToken: DecodedToken =  jwtDecode(data.token);
+
+            AuthStorage.setToken(data.token);
+            AuthStorage.setUserId(decodedToken.userId);
+            AuthStorage.setRoles(decodedToken.roles);
+
+            navigate('/');
+            toast.success('Login successful!');
+        } catch (error) {
+            toast.error('Login failed, please try again.');
+        }
+    };
 
     return (
         <Layout>
             <div className="loginPage">
                 <Container className="loginFormContainer">
-                    <Form className="loginForm">
-                        {/*TODO: onSubmit={handleSubmit}*/}
+                    <Form className="loginForm" onSubmit={handleSubmit}>
                         <FormGroup>
                             <Label for="email">Email</Label>
                             <Input
@@ -55,6 +98,7 @@ const LogIn = () => {
                             </Link>
                         </div>
                     </div>
+                    <ToastContainer />
                 </Container>
             </div>
         </Layout>
