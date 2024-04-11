@@ -30,9 +30,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--soft-pink);
-  color: var(--deep-sky-blue);
+  background-color: var(--royal-blue);
+  color: var(--pale-rose);
   padding: 0.5rem 1rem;
+  height: 4rem;
 }
 
 .appNavbar .logo {
@@ -49,12 +50,12 @@
 .appNavbar .login {
   cursor: pointer;
   margin-right: 2rem;
-  color: var(--deep-sky-blue);
+  color: var(--pale-rose);
   font-size: 3vh;
 }
 
 .appNavbar .login:hover {
-  color: var(--royal-blue);
+  color: var(--soft-pink);
 }
 
  /*LogIn */
@@ -69,7 +70,6 @@
 .loginFormContainer {
   width: 40rem !important;
   margin-bottom: 0.5rem !important;
-  margin-top: 65px;
 }
 
 .loginForm {
@@ -122,7 +122,7 @@
   margin: -0.5rem; /* Space between buttons */
   border: none;
   border-radius: 0.25rem; /* Rounded corners */
-  background-color: var(--royal-blue);
+  background-color: var(--royal-blue) !important;
   color: var(--text-color-light);
   text-align: center; /* Center the text */
   display: inline-block; /* Make the link behave like a button */
@@ -142,4 +142,176 @@
     padding: 0.5rem 1rem; /* Slightly smaller padding on smaller screens */
     font-size: 0.9rem; /* Slightly smaller font size on smaller screens */
   }
+}
+
+/*Mentor List*/
+.mentor-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-around;
+}
+
+.mentor-card {
+  background: var(--deep-sky-blue);
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
+  margin: 0.125rem;
+  padding: 1rem;
+  border-radius: 0.625rem;
+  max-width: calc(33.333% - 2rem); /* Subtracting twice the gap */
+  flex-basis: calc(33.333% - 2rem); /* Subtracting twice the gap */
+}
+
+.mentor-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-color-light);
+}
+
+.mentor-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.mentor-header .center-text {
+  text-align: center;
+}
+
+.experience-rating-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mentor-body {
+  font-size: 0.875rem;
+  background: var(--pale-rose);
+  color: var(--text-color-dark);
+  padding: 1em;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  height: 10em;
+  margin-bottom: 1em;
+}
+
+.mentor-body p {
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  max-height: 7em;
+}
+
+.mentor-domains {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  right: 1em;
+}
+
+.mentor-domains .domain {
+  display: inline-block;
+  background: var(--soft-pink);
+  color: var(--text-color-dark);
+  padding: 0.3125rem 0.625rem;
+  margin-right: 0.3125rem;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.mentor-rating {
+  display: flex;
+  align-items: center;
+}
+
+.mentor-rating .reviews {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-color-light);
+}
+
+.mentor-footer {
+  text-align: right;
+}
+
+.mentor-footer button {
+  margin-right: 0.625rem;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.3125rem;
+  background-color: var(--royal-blue);
+  color: white;
+  cursor: pointer;
+}
+
+.mentor-footer button.apply {
+  background-color: #28a745;
+}
+
+/* Select domain */
+.basic-multi-select {
+  color: var(--text-color-dark);
+}
+
+/* Layout */
+.main-content-container {
+  padding-top: 4rem;
+}
+
+.filters {
+  position: sticky;
+  top: 4rem;
+  background-color: white;
+  z-index: 10;
+  padding: 1em;
+}
+
+/* Mentor Application */
+.incorrect-input {
+  border: 1px solid red !important;
+}
+
+.mentor-application-container {
+  padding-top: 2rem;
+}
+
+.mentor-application-buttons {
+  padding-top: 1.5rem;
+}
+
+/* Applications */
+.applications-table {
+  margin-top: 4rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: 95% !important;
+}
+
+.mentee-column {
+  width: 20%;
+}
+
+.mentor-column {
+  width: 20%;
+}
+
+.status-column {
+  width: 10%;
+}
+
+.created-column {
+  width: 15%;
+}
+
+.updated-column {
+  width: 15%;
+}
+
+.actions-column {
+  width: 15%;
 }
