@@ -26,7 +26,18 @@ const AppNavbar = () => {
             <Link to="/" className="logo">
                 LOGO {/* Replace with real logo */}
             </Link>
-            {isAuthenticated ? (
+            <Link to="/mentors" className="login">
+                Mentors
+            </Link>
+
+            { isAuthenticated
+                &&
+            <Link to="/applications" className="login">
+                My applications
+            </Link>
+            }
+
+            { isAuthenticated ? (
                 <Link to="/" onClick={handleLogout} className="login">
                     Logout
                 </Link>
