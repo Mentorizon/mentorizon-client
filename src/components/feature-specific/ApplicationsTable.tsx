@@ -90,21 +90,6 @@ const ApplicationRow: React.FC<ApplicationRowProps> = ({
     };
     const handleCloseModal = () => setModalShow(false);
 
-    const handleConfirmCancellingApplication = () => {
-        handleCloseModal();
-        handleDelete && handleDelete(application.id);
-    };
-
-    const handleConfirmApprovingApplication = () => {
-        handleCloseModal();
-        handleApprove && handleApprove(application.id);
-    };
-
-    const handleConfirmDenyingApplication = () => {
-        handleCloseModal();
-        handleDeny && handleDeny(application.id);
-    };
-
     return (
         <tr>
             <td>{application.mentee.name}</td>
@@ -124,7 +109,9 @@ const ApplicationRow: React.FC<ApplicationRowProps> = ({
             )}
             {role === 'mentee' && (
                 <td>
-                    <Button color="danger" onClick={handleOpenCancelModal}>Cancel</Button>
+                    {application.status === 'PENDING' && (
+                        <Button color="danger" onClick={handleOpenCancelModal}>Cancel</Button>
+                    )}
                 </td>
             )}
             <ConfirmModal

@@ -315,3 +315,17 @@
 .actions-column {
   width: 15%;
 }
+
+.full-screen-message-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center children vertically */
+  align-items: center; /* Center children horizontally */
+  height: calc(100vh - 4rem);
+  text-align: center;
+}
+
+.full-screen-message {
+  padding: 20px;
+  box-sizing: border-box;
+}

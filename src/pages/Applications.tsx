@@ -3,6 +3,7 @@ import ApplicationsTable, { Application } from '../components/feature-specific/A
 import AppNavbar from "../components/common/AppNavbar";
 import AuthStorage from "../services/AuthStorage";
 import {toast, ToastContainer} from "react-toastify";
+import {Link} from "react-router-dom";
 
 type ApplicationsPageProps = {
     userRole: 'admin' | 'mentor' | 'mentee';
@@ -13,6 +14,7 @@ const ApplicationsPage: React.FC<ApplicationsPageProps> = () => {
     const [applications, setApplications] = useState<Application[]>([]);
     const userRole = AuthStorage.isAdmin() ? 'admin' : (AuthStorage.isMentor() ? 'mentor' : 'mentee');
     const userId = AuthStorage.getUserId();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const baseUrl = 'http://localhost:8080/applications'
@@ -22,8 +24,14 @@ const ApplicationsPage: React.FC<ApplicationsPageProps> = () => {
 
         fetch(fetchUrl)
             .then((response) => response.json())
-            .then((data) => setApplications(data))
-            .catch((error) => console.error('Error fetching applications:', error));
+            .then((data) => {
+                setApplications(data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error('Error fetching applications:', error);
+                setIsLoading(false);
+            });
     }, [userRole, userId]);
 
     const handleApprove = async (applicationId: string) => {
@@ -103,16 +111,32 @@ const ApplicationsPage: React.FC<ApplicationsPageProps> = () => {
     return (
         <div>
             <AppNavbar/>
-            <ApplicationsTable
-                applications={applications}
-                role={userRole}
-                handleApprove={handleApprove}
-                handleDeny={handleDeny}
-                handleDelete={userRole === 'mentee' ? handleDelete : undefined}
-            />
-            <ToastContainer />
+            {isLoading ? (
+                <div className="full-screen-message-wrapper">
+                    <div className="full-screen-message">
+                        <h1>Loading applications...</h1>
+                    </div>
+                </div>
+            ) : applications.length > 0 ? (
+                <ApplicationsTable
+                    applications={applications}
+                    role={userRole}
+                    handleApprove={handleApprove}
+                    handleDeny={handleDeny}
+                    handleDelete={userRole === 'mentee' ? handleDelete : undefined}
+                />
+            ) : (
+                <div className="full-screen-message-wrapper">
+                    <div className="full-screen-message">
+                        <h1>You currently have no applications.</h1>
+                        <h1>Visit the <Link to="/mentors">Mentors</Link> page to find and apply for mentorship.</h1>
+                    </div>
+                </div>
+            )}
+            <ToastContainer/>
         </div>
     );
+
 };
 
 export default ApplicationsPage;
