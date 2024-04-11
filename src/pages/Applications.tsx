@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ApplicationsTable, { Application } from '../components/feature-specific/ApplicationsTable';
 import AppNavbar from "../components/common/AppNavbar";
+import AuthStorage from "../services/AuthStorage";
 
 type ApplicationsPageProps = {
     userRole: 'admin' | 'mentor' | 'mentee';
     userId: string;
 };
 
-const ApplicationsPage: React.FC<ApplicationsPageProps> = ({ userRole, userId }) => {
+const ApplicationsPage: React.FC<ApplicationsPageProps> = () => {
     const [applications, setApplications] = useState<Application[]>([]);
+    const userRole = AuthStorage.isAdmin() ? 'admin' : (AuthStorage.isMentor() ? 'mentor' : 'mentee');
+    const userId = AuthStorage.getUserId();
 
     useEffect(() => {
         const baseUrl = 'http://localhost:8080/applications'
