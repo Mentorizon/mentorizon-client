@@ -101,7 +101,7 @@ const ApplicationDetailsPage = () => {
 
                                 <h5>Mentor Information</h5>
                                 <p>Name: {application.mentor.name}</p>
-                                { !AuthStorage.isMentee() || (AuthStorage.isMentee() && application.status === 'APPROVED') && (
+                                { (!AuthStorage.isMentee() || (AuthStorage.isMentee() && application.status === 'APPROVED')) && (
                                     <p>Email: {application.mentor.email}</p>
                                 )}
                                 <h5>Application Content</h5>
