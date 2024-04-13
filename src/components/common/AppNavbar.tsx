@@ -1,22 +1,14 @@
 import {Link, useNavigate} from 'react-router-dom';
-import {useEffect, useState} from "react";
 import AuthStorage from "../../services/AuthStorage";
 
 const AppNavbar = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsAuthenticated(!!token);
-    }, []);
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         AuthStorage.removeToken();
         AuthStorage.removeRoles();
         AuthStorage.removeUserId();
-
-        setIsAuthenticated(false);
 
         navigate("/");
     };
@@ -26,18 +18,34 @@ const AppNavbar = () => {
             <Link to="/" className="logo">
                 LOGO {/* Replace with real logo */}
             </Link>
-            <Link to="/mentors" className="login">
-                Mentors
-            </Link>
+            { !AuthStorage.isAdmin()
+                &&
+                <Link to="/mentors" className="login">
+                    Mentors
+                </Link>
+            }
 
-            { isAuthenticated
+
+            { AuthStorage.isAdmin()
+                &&
+                <>
+                    <Link to="/mentorsApplications" className="login">
+                        Mentors
+                    </Link>
+                    <Link to="/mentees" className="login">
+                        Mentees
+                    </Link>
+                </>
+            }
+
+            { AuthStorage.isAuthenticated()
                 &&
             <Link to="/applications" className="login">
-                My applications
+                { AuthStorage.isAdmin() ? "Applications" : "My applications" }
             </Link>
             }
 
-            { isAuthenticated ? (
+            { AuthStorage.isAuthenticated() ? (
                 <Link to="/" onClick={handleLogout} className="login">
                     Logout
                 </Link>

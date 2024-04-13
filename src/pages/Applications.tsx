@@ -84,7 +84,6 @@ const ApplicationsPage: React.FC<ApplicationsPageProps> = () => {
             ) : applications.length > 0 ? (
                 <ApplicationsTable
                     applications={applications}
-                    role={userRole}
                     handleApproveApplication={handleApproveApplication}
                     handleDenyApplication={handleDenyApplication}
                     handleCancelApplication={handleCancelApplication}
