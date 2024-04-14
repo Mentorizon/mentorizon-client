@@ -29,10 +29,10 @@ const AppNavbar = () => {
             { AuthStorage.isAdmin()
                 &&
                 <>
-                    <Link to="/mentorsApplications" className="login">
+                    <Link to="/mentors-monitor" className="login">
                         Mentors
                     </Link>
-                    <Link to="/mentees" className="login">
+                    <Link to="/mentees-monitor" className="login">
                         Mentees
                     </Link>
                 </>
