@@ -6,12 +6,8 @@ import {Link} from "react-router-dom";
 import useApplicationsActions from "../hooks/useApplicationsActions";
 import Layout from "../components/common/Layout";
 
-type ApplicationsPageProps = {
-    userRole: 'admin' | 'mentor' | 'mentee';
-    userId: string;
-};
 
-const ApplicationsPage: React.FC<ApplicationsPageProps> = () => {
+const ApplicationsPage: React.FC = () => {
     const [applications, setApplications] = useState<Application[]>([]);
     const userRole = AuthStorage.isAdmin() ? 'admin' : (AuthStorage.isMentor() ? 'mentor' : 'mentee');
     const userId = AuthStorage.getUserId();
