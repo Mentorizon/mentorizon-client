@@ -14,7 +14,8 @@ const MentorListPage: React.FC = () => {
     const [mentors, setMentors] = useState<Mentor[]>([]);
 
     const fetchMentors = async (queryString = '') => {
-        const response = await fetch(`http://localhost:8080/mentors${queryString}`);
+        console.log(`http://localhost:8080/mentors?approved=true${queryString}`)
+        const response = await fetch(`http://localhost:8080/mentors?approved=true${queryString}`);
         const data = await response.json();
         setMentors(data);
     };
@@ -41,7 +42,7 @@ const MentorListPage: React.FC = () => {
         if (filters.minRating > 0)
             queryParams.set('rating', filters.minRating.toString());
 
-        fetchMentors(`?${queryParams.toString()}`);
+        fetchMentors(`&${queryParams.toString()}`);
     }
 
     return (
