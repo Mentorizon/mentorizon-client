@@ -328,4 +328,5 @@
 .full-screen-message {
   padding: 20px;
   box-sizing: border-box;
+  max-width: 70%;
 }

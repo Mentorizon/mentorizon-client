@@ -87,8 +87,16 @@ const ApplicationsPage: React.FC = () => {
             ) : (
                 <div className="full-screen-message-wrapper">
                     <div className="full-screen-message">
-                        <h1>You currently have no applications.</h1>
-                        <h1>Visit the <Link to="/mentors">Mentors</Link> page to find and apply for mentorship.</h1>
+                        { AuthStorage.isAdmin()
+                            ? <h1>There are currently no applications.</h1>
+                            : AuthStorage.isMentor()
+                                ? <h1>There are no current applications. This could be a great time to update your mentor profile to attract mentees or check out some resources on how to be an effective mentor.</h1>
+                                : <>
+                                    <h1>It looks like you haven't applied for mentorship yet.</h1>
+                                    <h1>Explore our <Link to="/mentors">Mentors</Link> page to connect with someone who can guide you on your journey.</h1>
+                                </>
+                        }
+
                     </div>
                 </div>
             )}
