@@ -6,6 +6,7 @@ export interface Mentor {
     yearsOfExperience: number;
     domains: string[];
     rating: number;
+    ratingsNumber: number;
 }
 
 export interface Domain {

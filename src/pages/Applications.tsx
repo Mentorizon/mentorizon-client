@@ -33,12 +33,19 @@ const ApplicationsPage: React.FC = () => {
     }, [userRole, userId]);
 
     const handleApproveApplication = async (applicationId: string) => {
-        const success = await approveApplication(applicationId);
+        const { success, updatedAt } = await approveApplication(applicationId);
         if (success) {
             toast.success('Application approved successfully.');
-            const updatedApplications = applications.map(app =>
-                app.id === applicationId ? { ...app, status: 'APPROVED' as 'APPROVED' } : app
-            );
+            const updatedApplications = applications.map(app => {
+                if (app.id === applicationId) {
+                    return {
+                        ...app,
+                        status: 'APPROVED' as 'APPROVED',
+                        updatedAt
+                    };
+                }
+                return app;
+            });
             setApplications(updatedApplications);
         } else {
             toast.error('Failed to approve the application. Please try again.');
@@ -46,12 +53,19 @@ const ApplicationsPage: React.FC = () => {
     };
 
     const handleDenyApplication = async (applicationId: string) => {
-        const success = await denyApplication(applicationId);
+        const { success, updatedAt } = await denyApplication(applicationId);
         if (success) {
             toast.success('Application denied successfully.');
-            const updatedApplications = applications.map(app =>
-                app.id === applicationId ? { ...app, status: 'DENIED' as 'DENIED' } : app
-            );
+            const updatedApplications = applications.map(app => {
+                if (app.id === applicationId) {
+                    return {
+                        ...app,
+                        status: 'DENIED' as 'DENIED',
+                        updatedAt
+                    };
+                }
+                return app;
+            });
             setApplications(updatedApplications);
         } else {
             toast.error('Failed to deny the application. Please try again.');

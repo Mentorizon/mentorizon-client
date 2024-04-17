@@ -11,10 +11,14 @@ const useApplicationActions = () => {
                 },
                 body: JSON.stringify({ status: 'APPROVED' }),
             });
-            return response.ok;
+            if (response.ok) {
+                const responseData = await response.json();
+                return { success: true, updatedAt: responseData.updatedAt };
+            }
+            return { success: false };
         } catch (error) {
             console.error('Error approving application:', error);
-            return false;
+            return { success: false };
         }
     };
 
@@ -28,10 +32,14 @@ const useApplicationActions = () => {
                 },
                 body: JSON.stringify({ status: 'DENIED' }),
             });
-                return response.ok;
+            if (response.ok) {
+                const responseData = await response.json();
+                return { success: true, updatedAt: responseData.updatedAt };
+            }
+            return { success: false };
         } catch (error) {
             console.error('Error denying application:', error);
-            return false;
+            return { success: false };
         }
     };
 
