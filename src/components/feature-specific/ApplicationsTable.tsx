@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {FC, useState} from 'react';
 import { Table, Button } from 'reactstrap';
+import {useNavigate} from "react-router-dom";
+import ConfirmationButton from "../common/ConfirmationButton";
 
 export interface Application {
     id: string;
@@ -46,18 +48,24 @@ interface Domain {
 type ApplicationRowProps = {
     application: Application;
     role: string;
-    handleApprove: (applicationId: string) => void;
-    handleDeny: (applicationId: string) => void;
-    handleDelete?: (applicationId: string) => void;
+    handleApproveApplication: (applicationId: string) => void;
+    handleDenyApplication: (applicationId: string) => void;
+    handleCancelApplication: (applicationId: string) => void;
 };
 
 const ApplicationRow: React.FC<ApplicationRowProps> = ({
                                                            application,
                                                            role,
-                                                           handleApprove,
-                                                           handleDeny,
-                                                           handleDelete,
+                                                           handleApproveApplication,
+                                                           handleDenyApplication,
+                                                           handleCancelApplication,
                                                        }) => {
+    const navigate = useNavigate();
+
+    const handleReadMore = () => {
+        navigate(`/applications/${application.id}`);
+    };
+
     return (
         <tr>
             <td>{application.mentee.name}</td>
@@ -69,17 +77,36 @@ const ApplicationRow: React.FC<ApplicationRowProps> = ({
                 <td>
                     {application.status === 'PENDING' && (
                         <>
-                            <Button color="success" onClick={() => handleApprove(application.id)}>Approve</Button>{' '}
-                            <Button color="danger" onClick={() => handleDeny(application.id)}>Deny</Button>
+                            <ConfirmationButton
+                                onConfirm={() => handleApproveApplication(application.id)}
+                                buttonText="Approve"
+                                buttonColor="success"
+                                confirmText="Are you sure you want to approve this application?"
+                            />{' '}
+                            <ConfirmationButton
+                                onConfirm={() => handleDenyApplication(application.id)}
+                                buttonText="Deny"
+                                buttonColor="danger"
+                                confirmText="Are you sure you want to deny this application?"
+                            />{' '}
                         </>
                     )}
+                    <Button color="secondary" onClick={handleReadMore}>Read More</Button>
                 </td>
             )}
             {role === 'mentee' && (
                 <td>
-                    <Button color="danger" onClick={() => handleDelete && handleDelete(application.id)}>Delete</Button>
+                    {application.status === 'PENDING' && (
+                        <ConfirmationButton
+                            onConfirm={() => handleCancelApplication(application.id)}
+                            buttonText="Cancel"
+                            buttonColor="danger"
+                            confirmText="Are you sure you want to cancel this application?"
+                        />
+                    )}
                 </td>
             )}
+
         </tr>
     );
 }
@@ -88,17 +115,17 @@ const ApplicationRow: React.FC<ApplicationRowProps> = ({
 type ApplicationsTableProps = {
     applications: Application[];
     role: string;
-    handleApprove: (applicationId: string) => void;
-    handleDeny: (applicationId: string) => void;
-    handleDelete?: (applicationId: string) => void;
+    handleApproveApplication: (applicationId: string) => void;
+    handleDenyApplication: (applicationId: string) => void;
+    handleCancelApplication: (applicationId: string) => void;
 };
 
 const ApplicationsTable: React.FC<ApplicationsTableProps> = ({
                                                                  applications,
                                                                  role,
-                                                                 handleApprove,
-                                                                 handleDeny,
-                                                                 handleDelete,
+                                                                 handleApproveApplication,
+                                                                 handleDenyApplication,
+                                                                 handleCancelApplication,
                                                              }) => {
     return (
         <div className="table-responsive">
@@ -119,9 +146,9 @@ const ApplicationsTable: React.FC<ApplicationsTableProps> = ({
                         key={application.id}
                         application={application}
                         role={role}
-                        handleApprove={handleApprove}
-                        handleDeny={handleDeny}
-                        handleDelete={handleDelete}
+                        handleApproveApplication={handleApproveApplication}
+                        handleDenyApplication={handleDenyApplication}
+                        handleCancelApplication={handleCancelApplication}
                     />
                 ))}
                 </tbody>

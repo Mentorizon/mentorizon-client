@@ -7,6 +7,7 @@ import SignUpMentor from "./pages/SignUpMentor";
 import MentorList from "./pages/MentorList";
 import MentorApplication from "./pages/MentorApplication";
 import Applications from "./pages/Applications";
+import ApplicationDetailsPage from "./pages/ApplicationDetails";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
                 <Route exact path="/mentors" element={<MentorList/>}></Route>
                 <Route path="/apply/:mentorId" element={<MentorApplication />} />
                 <Route path="/applications" element={<Applications />} />
+                <Route path="/applications/:id" element={<ApplicationDetailsPage />} />
             </Routes>
         </Router>
     );

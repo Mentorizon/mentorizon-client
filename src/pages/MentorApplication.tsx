@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input, Container, Row, Col } from 'reac
 import {Link, useNavigate, useParams} from "react-router-dom";
 import Layout from "../components/common/Layout";
 import { toast, ToastContainer } from 'react-toastify';
+import AuthStorage from "../services/AuthStorage";
 
 type RouteParams = {
     mentorId: string;
@@ -36,7 +37,7 @@ const MentorApplication: React.FC = () => {
 
     const [application, setApplication] = useState<MentorApplicationFormData>({
         mentorId: mentorId || '',
-        menteeId: 'd3a292cd-008d-413c-b667-7a15229bd022',
+        menteeId: AuthStorage.getUserId() || '',
         reason: '',
         motivation: '',
         selfDescription: '',
@@ -70,9 +71,8 @@ const MentorApplication: React.FC = () => {
 
             if (application[fieldKey]?.length < minLength) {
                 isFormValid = false;
-                errors[fieldKey] = true; // Mark this field as having an error
+                errors[fieldKey] = true;
 
-                // Using fieldLabels with proper type assertion
                 const errorMessage = `Please ensure ${fieldLabels[fieldKey]} is at least ${minLength} characters long.`;
                 toast.error(errorMessage, {
                     position: "top-right",
@@ -88,10 +88,8 @@ const MentorApplication: React.FC = () => {
 
         setFieldErrors(errors);
 
-        // Prevent submission if form is invalid
-        if (!isFormValid) {
+        if (!isFormValid)
             return;
-        }
 
         try {
             const response = await fetch('http://localhost:8080/applications', {
@@ -100,7 +98,7 @@ const MentorApplication: React.FC = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    menteeId: application.menteeId, // TODO: change to real
+                    menteeId: application.menteeId,
                     mentorId: application.mentorId,
                     reason: application.reason,
                     motivation: application.motivation,
@@ -126,8 +124,6 @@ const MentorApplication: React.FC = () => {
                 return;
             }
 
-            const result = await response.json();
-            console.log('Application submitted:', result);
             toast.success('Your application has been successfully submitted for review. Thank you!', {
                 position: 'top-right',
                 autoClose: 3000,
