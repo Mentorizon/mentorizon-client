@@ -34,6 +34,7 @@
   color: var(--pale-rose);
   padding: 0.5rem 1rem;
   height: 4rem;
+  z-index: 1030;
 }
 
 .appNavbar .logo {
@@ -179,13 +180,12 @@
   box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
   margin: 0.125rem;
   padding: 1rem;
-  border-radius: 0.625rem;
+  border-radius: 0.925rem;
   max-width: calc(90%);
   flex-basis: calc(90%);
 }
 
-
-.mentor-header {
+.mentor-header, .mentor-profile-header {
   border-bottom: 1px solid #eee;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
@@ -197,7 +197,16 @@
   font-size: 1.5rem;
 }
 
-.mentor-header .center-text {
+.mentor-profile-header h3 {
+  margin: 0;
+  font-size: 3rem;
+}
+
+.mentor-profile-header {
+  font-size: 1.5rem;
+}
+
+.mentor-header .center-text, .mentor-profile-header .center-text {
   text-align: center;
 }
 
@@ -212,7 +221,7 @@
   background: var(--pale-rose);
   color: var(--text-color-dark);
   padding: 1em;
-  border-radius: 5px;
+  border-radius: 0.925rem;;
   overflow: hidden;
   position: relative;
   height: 10em;
@@ -226,6 +235,42 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   max-height: 7em;
+}
+
+.mentor-profile-description {
+  font-size: 1.5rem;
+  background: var(--pale-rose);
+  color: var(--text-color-dark);
+  padding: 1em;
+  border-radius: 0.925rem;;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.mentor-profile-description p {
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.mentor-profile-domains {
+  bottom: 1em;
+  left: 1em;
+  right: 1em;
+}
+
+.mentor-profile-domains .domain {
+  display: inline-block;
+  background: var(--soft-pink);
+  color: var(--text-color-dark);
+  padding: 0.4125rem 0.925rem;
+  margin-right: 0.3125rem;
+  border-radius: 15px;
+  font-size: 1.5rem;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .mentor-domains {
@@ -256,6 +301,10 @@
   margin-left: 0.5rem;
   font-size: 0.875rem;
   color: var(--text-color-light);
+}
+
+.mentor-profile-rating .reviews {
+  font-size: 1.5rem;
 }
 
 .mentor-footer {
@@ -354,26 +403,3 @@
   max-width: 70%;
 }
 
-
-/* Mentor Profile */
-.mentor-profile-card {
-  padding: 20px;
-  background-color: #f8f9fa; /* Soft background color */
-  border-radius: 0.5rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Bootstrap shadow */
-}
-
-.badge-primary {
-  background-color: #007bff; /* Bootstrap primary color */
-  margin-right: 0.5rem; /* Spacing between badges */
-}
-
-.btn-primary {
-  background-color: #007bff; /* Bootstrap primary color */
-  border-color: #007bff; /* Button border if needed */
-}
-
-.btn-primary:hover {
-  background-color: #0056b3; /* Darker on hover */
-  border-color: #0056b3; /* Button border on hover if needed */
-}

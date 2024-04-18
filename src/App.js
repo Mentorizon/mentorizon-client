@@ -10,6 +10,7 @@ import Applications from "./pages/Applications";
 import ApplicationDetailsPage from "./pages/ApplicationDetails";
 import MentorsAdminPanel from "./pages/MentorsAdminPanel";
 import MenteesAdminPanel from "./pages/MenteesAdminPanel";
+import MentorProfile from "./pages/MentorProfile";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/applications/:id" element={<ApplicationDetailsPage />} />
                 <Route path="/mentors-monitor" element={<MentorsAdminPanel />} />
                 <Route path="/mentees-monitor" element={<MenteesAdminPanel />} />
+                <Route path="/mentors/:mentorId" element={<MentorProfile />} />
             </Routes>
         </Router>
     );

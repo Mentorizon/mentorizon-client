@@ -3,13 +3,11 @@ import {useNavigate} from "react-router-dom";
 import StarRating from "./StarRating";
 import React from "react";
 import {ToastContainer} from "react-toastify";
-import useRating from "../../hooks/useRating";
 
 const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
     const navigate = useNavigate();
-    const { mentorRating, ratingsNumber, rateMentor } = useRating(mentor.id, mentor.rating, mentor.ratingsNumber);
 
-
+    const handleViewProfile = () => navigate(`/mentors/${mentor.id}`);
     const handleApplyClick = () => navigate(`/apply/${mentor.id}`);
 
     return (
@@ -20,8 +18,11 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
                 <div className="experience-rating-row">
                     <p className="years-experience">{mentor.yearsOfExperience} years</p>
                     <div className="mentor-rating">
-                        <StarRating currentRating={Math.round(mentor.rating)} onRating={rateMentor}/>
-                        <span className="reviews">{mentorRating} ({ratingsNumber} reviews)</span>
+                        <StarRating
+                            mentorId={mentor.id}
+                            currentRating={Math.round(mentor.rating)}
+                            currentRatingsNumber={mentor.ratingsNumber}
+                        />
                     </div>
                 </div>
             </div>
@@ -34,10 +35,10 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
                 </div>
             </div>
             <div className="mentor-footer">
-                <button className="view-profile">View Profile</button>
+                <button onClick={handleViewProfile}>View Profile</button>
                 <button className="apply" onClick={handleApplyClick}>Apply</button>
             </div>
-            <ToastContainer />
+            <ToastContainer/>
         </div>
     );
 };
