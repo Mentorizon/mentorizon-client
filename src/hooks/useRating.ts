@@ -21,8 +21,8 @@ const useRating = (mentorId: string, initialRating: number, initialRatingsNumber
                 const responseData = await response.json();
                 setMentorRating(responseData.averageRating);
                 setRatingsNumber(responseData.ratingsNumber);
-                const starsString = newRating === 1 ? 'star' : 'starts'
-                toast.success(`You rated with ${newRating} ${starsString} successfully!`);
+                const starsString = newRating === 1 ? 'star' : 'stars'
+                toast.success(`You have rated this mentor with ${newRating} ${starsString} successfully!`);
             } else {
                 toast.error('Rating failed, please try again.');
             }
