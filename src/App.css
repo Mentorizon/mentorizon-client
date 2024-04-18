@@ -156,7 +156,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: space-around;
+  justify-content: flex-start;
+  padding-left: 3rem;
 }
 
 .mentor-card {
