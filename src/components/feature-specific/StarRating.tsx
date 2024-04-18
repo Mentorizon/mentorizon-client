@@ -1,12 +1,20 @@
 import React, {useState} from "react";
 import AuthStorage from "../../services/AuthStorage";
+import useRating from "../../hooks/useRating";
 
-const StarRating: React.FC<{ currentRating: number, onRating: (rating: number) => void }> = ({ currentRating, onRating }) => {
+interface StarRatingProps {
+    mentorId: string;
+    currentRating: number;
+    currentRatingsNumber: number;
+}
+
+const StarRating: React.FC<StarRatingProps> = ({ mentorId, currentRating, currentRatingsNumber }) => {
     const [rating, setRating] = useState(currentRating);
+    const { mentorRating, ratingsNumber, rateMentor } = useRating(mentorId, currentRating, currentRatingsNumber);
 
     const handleClick = (rate: number) => {
         setRating(rate);
-        onRating(rate);
+        rateMentor(rate);
     };
 
     return (
@@ -17,6 +25,7 @@ const StarRating: React.FC<{ currentRating: number, onRating: (rating: number) =
                     {star <= rating ? '⭐' : '☆'}
                 </span>
             ))}
+            <span className="reviews">{mentorRating} ({ratingsNumber} reviews)</span>
         </div>
     );
 };
