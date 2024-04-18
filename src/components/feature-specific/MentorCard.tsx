@@ -1,9 +1,13 @@
 import { Mentor } from '../../types';
 import {useNavigate} from "react-router-dom";
+import StarRating from "./StarRating";
+import React from "react";
+import {ToastContainer} from "react-toastify";
 
 const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
     const navigate = useNavigate();
 
+    const handleViewProfile = () => navigate(`/mentors/${mentor.id}`);
     const handleApplyClick = () => navigate(`/apply/${mentor.id}`);
 
     return (
@@ -14,10 +18,11 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
                 <div className="experience-rating-row">
                     <p className="years-experience">{mentor.yearsOfExperience} years</p>
                     <div className="mentor-rating">
-                        {Array.from({ length: mentor.rating }, (_, i) => (
-                            <span key={i}>⭐</span>
-                        ))}
-                        <span className="reviews">{mentor.rating}.0 (8 reviews)</span>
+                        <StarRating
+                            mentorId={mentor.id}
+                            currentRating={Math.round(mentor.rating)}
+                            currentRatingsNumber={mentor.ratingsNumber}
+                        />
                     </div>
                 </div>
             </div>
@@ -30,9 +35,10 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
                 </div>
             </div>
             <div className="mentor-footer">
-                <button className="view-profile">View Profile</button>
+                <button onClick={handleViewProfile}>View Profile</button>
                 <button className="apply" onClick={handleApplyClick}>Apply</button>
             </div>
+            <ToastContainer/>
         </div>
     );
 };

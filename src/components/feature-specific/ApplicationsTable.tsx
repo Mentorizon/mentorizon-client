@@ -1,7 +1,8 @@
-import React, {FC, useState} from 'react';
+import React from 'react';
 import { Table, Button } from 'reactstrap';
 import {useNavigate} from "react-router-dom";
 import ConfirmationButton from "../common/ConfirmationButton";
+import AuthStorage from "../../services/AuthStorage";
 
 export interface Application {
     id: string;
@@ -47,7 +48,6 @@ interface Domain {
 
 type ApplicationRowProps = {
     application: Application;
-    role: string;
     handleApproveApplication: (applicationId: string) => void;
     handleDenyApplication: (applicationId: string) => void;
     handleCancelApplication: (applicationId: string) => void;
@@ -55,11 +55,13 @@ type ApplicationRowProps = {
 
 const ApplicationRow: React.FC<ApplicationRowProps> = ({
                                                            application,
-                                                           role,
                                                            handleApproveApplication,
                                                            handleDenyApplication,
                                                            handleCancelApplication,
                                                        }) => {
+    const reviewedAt = application.createdAt !== application.updatedAt
+        ? new Date(application.updatedAt).toLocaleString()
+        : '';
     const navigate = useNavigate();
 
     const handleReadMore = () => {
@@ -72,41 +74,38 @@ const ApplicationRow: React.FC<ApplicationRowProps> = ({
             <td>{application.mentor.name}</td>
             <td>{application.status}</td>
             <td>{new Date(application.createdAt).toLocaleString()}</td>
-            <td>{new Date(application.updatedAt).toLocaleString()}</td>
-            {role === 'mentor' && (
-                <td>
-                    {application.status === 'PENDING' && (
-                        <>
-                            <ConfirmationButton
-                                onConfirm={() => handleApproveApplication(application.id)}
-                                buttonText="Approve"
-                                buttonColor="success"
-                                confirmText="Are you sure you want to approve this application?"
-                            />{' '}
-                            <ConfirmationButton
-                                onConfirm={() => handleDenyApplication(application.id)}
-                                buttonText="Deny"
-                                buttonColor="danger"
-                                confirmText="Are you sure you want to deny this application?"
-                            />{' '}
-                        </>
-                    )}
-                    <Button color="secondary" onClick={handleReadMore}>Read More</Button>
-                </td>
-            )}
-            {role === 'mentee' && (
-                <td>
-                    {application.status === 'PENDING' && (
+            <td>{reviewedAt}</td>
+            <td>
+                { AuthStorage.isMentor() && application.status === 'PENDING' && (
+                    <>
                         <ConfirmationButton
-                            onConfirm={() => handleCancelApplication(application.id)}
-                            buttonText="Cancel"
+                            onConfirm={() => handleApproveApplication(application.id)}
+                            buttonText="Approve"
+                            buttonColor="success"
+                            confirmText="Are you sure you want to approve this application?"
+                        />{' '}
+                        <ConfirmationButton
+                            onConfirm={() => handleDenyApplication(application.id)}
+                            buttonText="Deny"
                             buttonColor="danger"
-                            confirmText="Are you sure you want to cancel this application?"
-                        />
-                    )}
-                </td>
-            )}
+                            confirmText="Are you sure you want to deny this application?"
+                        />{' '}
+                    </>
+                )}
 
+                <>
+                    <Button color="secondary" onClick={handleReadMore}>Read More</Button>{' '}
+                </>
+
+                { ((AuthStorage.isMentee() && application.status === 'PENDING') || AuthStorage.isAdmin()) && (
+                    <ConfirmationButton
+                        onConfirm={() => handleCancelApplication(application.id)}
+                        buttonText={`${AuthStorage.isMentee() ? "Cancel" : "Delete"}`}
+                        buttonColor="danger"
+                        confirmText={`Are you sure you want to ${AuthStorage.isMentee() ? "cancel" : "delete"} this application?`}
+                    />
+                )}
+            </td>
         </tr>
     );
 }
@@ -114,7 +113,6 @@ const ApplicationRow: React.FC<ApplicationRowProps> = ({
 
 type ApplicationsTableProps = {
     applications: Application[];
-    role: string;
     handleApproveApplication: (applicationId: string) => void;
     handleDenyApplication: (applicationId: string) => void;
     handleCancelApplication: (applicationId: string) => void;
@@ -122,7 +120,6 @@ type ApplicationsTableProps = {
 
 const ApplicationsTable: React.FC<ApplicationsTableProps> = ({
                                                                  applications,
-                                                                 role,
                                                                  handleApproveApplication,
                                                                  handleDenyApplication,
                                                                  handleCancelApplication,
@@ -136,8 +133,8 @@ const ApplicationsTable: React.FC<ApplicationsTableProps> = ({
                     <th className="mentor-column">Mentor</th>
                     <th className="status-column">Status</th>
                     <th className="created-column">Created At</th>
-                    <th className="updated-column">Updated At</th>
-                    {role !== 'admin' && <th>Actions</th>}
+                    <th className="updated-column">Reviewed At</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -145,7 +142,6 @@ const ApplicationsTable: React.FC<ApplicationsTableProps> = ({
                     <ApplicationRow
                         key={application.id}
                         application={application}
-                        role={role}
                         handleApproveApplication={handleApproveApplication}
                         handleDenyApplication={handleDenyApplication}
                         handleCancelApplication={handleCancelApplication}
