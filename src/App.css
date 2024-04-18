@@ -131,6 +131,12 @@
   font-size: 1rem;
 }
 
+.textarea-custom {
+  width: 100%;
+  border-radius: .25rem;
+  resize: vertical;
+}
+
 /* Hover effect */
 .linkButton:hover, .optionButton:hover {
   background-color: #0056b3;
@@ -161,6 +167,23 @@
   max-width: calc(33.333% - 2rem); /* Subtracting twice the gap */
   flex-basis: calc(33.333% - 2rem); /* Subtracting twice the gap */
 }
+
+.mentor-profile-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.mentor-profile {
+  background: var(--deep-sky-blue);
+  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.1);
+  margin: 0.125rem;
+  padding: 1rem;
+  border-radius: 0.625rem;
+  max-width: calc(90%);
+  flex-basis: calc(90%);
+}
+
 
 .mentor-header {
   border-bottom: 1px solid #eee;
@@ -329,4 +352,28 @@
   padding: 20px;
   box-sizing: border-box;
   max-width: 70%;
+}
+
+
+/* Mentor Profile */
+.mentor-profile-card {
+  padding: 20px;
+  background-color: #f8f9fa; /* Soft background color */
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Bootstrap shadow */
+}
+
+.badge-primary {
+  background-color: #007bff; /* Bootstrap primary color */
+  margin-right: 0.5rem; /* Spacing between badges */
+}
+
+.btn-primary {
+  background-color: #007bff; /* Bootstrap primary color */
+  border-color: #007bff; /* Button border if needed */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker on hover */
+  border-color: #0056b3; /* Button border on hover if needed */
 }

@@ -220,15 +220,14 @@ const SignUpMentor = () => {
 
                         <FormGroup>
                             <Label for="description">Tell us about yourself</Label>
-                            <Input
-                                type="text"
+                            <textarea
                                 name="description"
                                 id="description"
-                                maxLength={200}
+                                rows={4}
                                 value={formData.description}
-                                onChange={handleInputChange}
+                                onChange={e => setFormData({...formData, 'description': e.target.value})}
                                 required
-                                className={fieldErrors.description ? 'incorrect-input' : ''}
+                                className={`textarea-custom ${fieldErrors.description ? 'incorrect-input' : ''}`}
                             />
                         </FormGroup>
 
