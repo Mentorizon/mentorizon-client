@@ -25,7 +25,7 @@ const StarRating: React.FC<StarRatingProps> = ({ mentorId, currentRating, curren
                     {star <= rating ? '⭐' : '☆'}
                 </span>
             ))}
-            <span className="reviews">{mentorRating} ({ratingsNumber} reviews)</span>
+            <span className="reviews">{mentorRating !== 0 ? mentorRating : ''} ({ratingsNumber} reviews)</span>
         </div>
     );
 };
