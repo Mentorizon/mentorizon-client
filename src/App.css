@@ -326,6 +326,10 @@
   background-color: #28a745;
 }
 
+.approve-mentor-button {
+  margin-bottom: 0.75rem;
+}
+
 /* Select domain */
 .basic-multi-select {
   color: var(--text-color-dark);

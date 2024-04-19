@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Table } from 'reactstrap';
 import {toast, ToastContainer} from "react-toastify";
 import Layout from '../components/common/Layout';
+import useBlockUser from "../hooks/useBlockUser";
 
 export type Mentor = {
     id: string;
@@ -16,11 +17,13 @@ export type Mentor = {
     contactInfo: string;
     rating: number;
     approved: boolean;
+    isBlocked: boolean;
 };
 
 const MentorsAdminPanel: React.FC = () => {
     const [mentors, setMentors] = useState<Mentor[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const blockUser = useBlockUser();
 
     useEffect(() => {
         fetch('http://localhost:8080/mentors')
@@ -55,6 +58,8 @@ const MentorsAdminPanel: React.FC = () => {
         }
     };
 
+    const handleBlockClick = (mentorId: string) => blockUser(mentorId, setMentors);
+
     return (
         <Layout>
             <ToastContainer />
@@ -79,6 +84,7 @@ const MentorsAdminPanel: React.FC = () => {
                             <th>CV</th>
                             <th>Contact Info</th>
                             <th>Is Approved?</th>
+                            <th>Is Blocked?</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -95,12 +101,18 @@ const MentorsAdminPanel: React.FC = () => {
                                 <td>cv якось треба</td>
                                 <td>{mentor.contactInfo}</td>
                                 <td>{mentor.approved ? "Так" : "Ні"}</td>
+                                <td>{mentor.isBlocked ? "Так" : "Ні"}</td>
                                 <td>
                                     {!mentor.approved &&
-                                        <Button color="success" onClick={() => handleApprove(mentor.id)}>
+                                        <Button color="success" className="approve-mentor-button" onClick={() => handleApprove(mentor.id)}>
                                             Approve
                                         </Button>
                                     }
+                                    {!mentor.isBlocked && (
+                                        <Button color="danger" onClick={() => handleBlockClick(mentor.id)}>
+                                            Block
+                                        </Button>
+                                    )}
                                 </td>
                             </tr>
                         ))}

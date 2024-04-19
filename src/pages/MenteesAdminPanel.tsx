@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table } from 'reactstrap';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import Layout from '../components/common/Layout';
+import useBlockUser from "../hooks/useBlockUser";
 
 export type Mentee = {
     id: string;
     name: string;
     email: string;
     createdAt: string;
+    isBlocked: boolean;
 };
 
 const MenteesAdminPanel: React.FC = () => {
     const [mentees, setMentees] = useState<Mentee[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const blockUser = useBlockUser();
 
     useEffect(() => {
         fetch('http://localhost:8080/mentees')
@@ -26,6 +29,8 @@ const MenteesAdminPanel: React.FC = () => {
                 setIsLoading(false);
             });
     }, []);
+
+    const handleBlockClick = (menteeId: string) => blockUser(menteeId, setMentees);
 
     return (
         <Layout>
@@ -44,6 +49,8 @@ const MenteesAdminPanel: React.FC = () => {
                             <th>Name</th>
                             <th>Email</th>
                             <th>Created At</th>
+                            <th>Is Blocked?</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -52,6 +59,14 @@ const MenteesAdminPanel: React.FC = () => {
                                 <td>{mentee.name}</td>
                                 <td>{mentee.email}</td>
                                 <td>{new Date(mentee.createdAt).toLocaleString()}</td>
+                                <td>{mentee.isBlocked ? "Так" : "Ні"}</td>
+                                <td>
+                                    {!mentee.isBlocked && (
+                                        <Button color="danger" onClick={() => handleBlockClick(mentee.id)}>
+                                            Block
+                                        </Button>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                         </tbody>
