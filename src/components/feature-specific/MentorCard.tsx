@@ -1,4 +1,4 @@
-import { Mentor } from '../../types';
+import {Mentor, Domain} from '../../types';
 import {useNavigate} from "react-router-dom";
 import StarRating from "./StarRating";
 import React from "react";
@@ -30,8 +30,8 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
             <div className="mentor-body">
                 <p>{mentor.description}</p>
                 <div className="mentor-domains">
-                    {mentor.domains.map((domain: string, index: number) => (
-                        <span key={index} className="domain">{domain}</span>
+                    {mentor.domains.map((domain: Domain, index: number) => (
+                        <span key={index} className="domain">{domain.name}</span>
                     ))}
                 </div>
             </div>

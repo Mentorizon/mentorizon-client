@@ -4,7 +4,7 @@ export interface Mentor {
     jobTitle: string;
     description: string;
     yearsOfExperience: number;
-    domains: string[];
+    domains: Domain[];
     rating: number;
     ratingsNumber: number;
 }
@@ -12,9 +12,4 @@ export interface Mentor {
 export interface Domain {
     id: string;
     name: string;
-}
-
-export interface Option {
-    value: string;
-    label: string;
 }

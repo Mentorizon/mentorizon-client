@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import { Mentor } from '../types';
+import {Mentor, Domain} from '../types';
 import Layout from "../components/common/Layout";
 import StarRating from "../components/feature-specific/StarRating";
 import {ToastContainer} from "react-toastify";
@@ -62,8 +62,8 @@ const MentorProfile: React.FC = () => {
                     </div>
                     <div className="mentor-profile-description">
                         <div className="mentor-profile-domains">
-                            {mentor.domains.map((domain: string, index: number) => (
-                                <span key={index} className="domain">{domain}</span>
+                            {mentor.domains.map((domain: Domain, index: number) => (
+                                <span key={index} className="domain">{domain.name}</span>
                             ))}
                         </div>
                         <p>{mentor.description}</p>

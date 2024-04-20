@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from "react";
 import {Button, Container, Form, FormGroup, Input, Label} from "reactstrap";
 import {Link, useNavigate} from "react-router-dom";
 import SelectDomain from "../components/feature-specific/SelectDomain";
-import { Option } from "../types";
+import { Domain } from "../types";
 import Layout from "../components/common/Layout";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -115,8 +115,8 @@ const SignUpMentor = () => {
     };
 
 
-    const handleDomainsChange = (selectedDomains: Option[]) => {
-        const domainIds = selectedDomains.map(domain => domain.value);
+    const handleDomainsChange = (selectedDomains: Domain[]) => {
+        const domainIds = selectedDomains.map(domain => domain.id);
         setFormData({ ...formData, selectedDomainIds: domainIds });
     };
 
