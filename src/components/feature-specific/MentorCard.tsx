@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import StarRating from "./StarRating";
 import React from "react";
 import {ToastContainer} from "react-toastify";
+import AuthStorage from "../../services/AuthStorage";
 
 const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
     const navigate = useNavigate();
@@ -36,7 +37,9 @@ const MentorCard: React.FC<{ mentor: Mentor }> = ({ mentor }) => {
             </div>
             <div className="mentor-footer">
                 <button onClick={handleViewProfile}>View Profile</button>
-                <button className="apply" onClick={handleApplyClick}>Apply</button>
+                { AuthStorage.isMentee() &&
+                    <button className="apply" onClick={handleApplyClick}>Apply</button>
+                }
             </div>
             <ToastContainer/>
         </div>
