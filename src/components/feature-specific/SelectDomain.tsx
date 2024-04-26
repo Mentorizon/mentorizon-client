@@ -1,41 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import Select from 'react-select';
-import { Domain, Option } from "../../types";
+import { Domain } from "../../types";
 
 interface SelectDomainProps {
-    onDomainsChange: (selectedDomains: Option[]) => void;
+    initialDomains?: Domain[];
+    onDomainsChange: (selectedDomains: Domain[]) => void;
 }
 
-const SelectDomain: React.FC<SelectDomainProps> = ({ onDomainsChange }) => {
-    const [domainOptions, setDomainOptions] = useState<Option[]>([]);
-    const [selectedDomains, setSelectedDomains] = useState<Option[]>([]);
-
-    const fetchDomains = async (): Promise<Domain[]> => {
-        try {
-            const response = await fetch('http://localhost:8080/domains');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return await response.json();
-        } catch (error) {
-            console.error("There was a problem fetching the domains: ", error);
-            return [];
-        }
-    };
+const SelectDomain: React.FC<SelectDomainProps> = ({ initialDomains, onDomainsChange }) => {
+    const [domainOptions, setDomainOptions] = useState<Domain[]>([]);
+    const [selectedDomains, setSelectedDomains] = useState<Domain[]>(initialDomains || []);
 
     useEffect(() => {
-        fetchDomains().then(data => {
-            const options: Option[] = data.map((domain: Domain) => ({
-                value: domain.id,
-                label: domain.name
-            }));
-            setDomainOptions(options);
-        });
-    }, []);
+        fetch('http://localhost:8080/domains')
+            .then(response => response.json())
+            .then(data => {
+                const options = data.map((domain: Domain) => ({
+                    value: domain.id.toString(),
+                    label: domain.name
+                }));
+                setDomainOptions(options);
+                setSelectedDomains(initialDomains || []);
+            })
+            .catch(error => console.error("Error fetching domains:", error));
+    }, [initialDomains]);
 
-    const handleDomainSelect = (selectedOptions: readonly Option[]) => {
-        setSelectedDomains([...selectedOptions]);
-        onDomainsChange([...selectedOptions]);
+    const handleDomainSelect = (selectedOptions: Domain[]) => {
+        const selected = selectedOptions;
+        setSelectedDomains(selected);
+        onDomainsChange(selected);
     };
 
     return (
@@ -45,7 +38,7 @@ const SelectDomain: React.FC<SelectDomainProps> = ({ onDomainsChange }) => {
             options={domainOptions}
             className="basic-multi-select"
             classNamePrefix="select"
-            onChange={handleDomainSelect}
+            onChange={handleDomainSelect as any}
             value={selectedDomains}
         />
     );
