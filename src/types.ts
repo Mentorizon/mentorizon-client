@@ -13,3 +13,8 @@ export interface Domain {
     id: string;
     name: string;
 }
+
+export interface DomainOption {
+    value: string;
+    label: string;
+}

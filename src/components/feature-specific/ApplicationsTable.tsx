@@ -3,6 +3,7 @@ import { Table, Button } from 'reactstrap';
 import {useNavigate} from "react-router-dom";
 import ConfirmationButton from "../common/ConfirmationButton";
 import AuthStorage from "../../services/AuthStorage";
+import {Domain} from "../../types";
 
 export interface Application {
     id: string;
@@ -39,12 +40,6 @@ interface MentorDetails {
     rating: number;
     approved: boolean;
 }
-
-interface Domain {
-    id: string;
-    name: string;
-}
-
 
 type ApplicationRowProps = {
     application: Application;

@@ -23,11 +23,17 @@ const AppNavbar = () => {
                 </Link>
                 {!AuthStorage.isAdmin()
                     &&
+                    <Link to="/my-profile">
+                        My profile
+                    </Link>
+                }
+
+                {!AuthStorage.isAdmin()
+                    &&
                     <Link to="/mentors">
                         Mentors
                     </Link>
                 }
-
 
                 { AuthStorage.isAdmin()
                     &&
