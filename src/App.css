@@ -37,27 +37,29 @@
   z-index: 1030;
 }
 
-.appNavbar .logo {
-  border-radius: 50%;
-  background-color: white;
-  width: 2.5rem;
-  height: 2.5rem;
+.navbar-left {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-left: 2rem;
 }
 
-.appNavbar .login {
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.appNavbar a {
   cursor: pointer;
-  margin-right: 2rem;
+  margin-left: 2rem;
   color: var(--pale-rose);
   font-size: 3vh;
+  text-decoration: none;
 }
 
-.appNavbar .login:hover {
+.appNavbar a:hover {
   color: var(--soft-pink);
+  text-decoration: none;
 }
+
 
  /*LogIn */
 .loginPage {
