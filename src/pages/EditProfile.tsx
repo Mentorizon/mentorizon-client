@@ -184,10 +184,11 @@ const ProfileEdit: React.FC = () => {
                                 <textarea
                                     name="description"
                                     id="description"
-                                    rows={4}
+                                    rows={6}
                                     value={profile.description}
                                     onChange={handleInputChange}
                                     required
+                                    className="textarea-custom"
                                 />
                             </FormGroup>
                             <FormGroup>
@@ -231,12 +232,12 @@ const ProfileEdit: React.FC = () => {
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Label>Are you approved?</Label>
+                                <Label>Are you approved mentor?</Label>{' '}
                                 <Label>{profile.approved ? "Yes" : "No"}</Label>
                             </FormGroup>
                         </>
                     )}
-                    <Button type="submit" color="primary" disabled={isLoading}>
+                    <Button type="submit" color="primary" disabled={isLoading} className="save-changes-button">
                         Save Changes
                     </Button>
                 </Form>
