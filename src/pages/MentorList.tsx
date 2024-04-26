@@ -4,6 +4,7 @@ import { Mentor } from '../types';
 import MentorFilters from "../components/feature-specific/MentorFilters";
 import Layout from "../components/common/Layout";
 import {MultiValue} from "react-select";
+import AuthStorage from "../services/AuthStorage";
 
 interface DomainOption {
     value: string;
@@ -49,9 +50,11 @@ const MentorListPage: React.FC = () => {
             <div className="mentor-list-page">
                 <MentorFilters onFilterChange={handleFilterChange}/>
                 <div className="mentor-list-container">
-                    {mentors.map((mentor: Mentor) => (
-                        <MentorCard key={mentor.id} mentor={mentor} />
-                    ))}
+                    {mentors.filter(mentor => mentor.id !== AuthStorage.getUserId())
+                        .map((mentor: Mentor) => (
+                            <MentorCard key={mentor.id} mentor={mentor} />
+                        ))
+                    }
                 </div>
             </div>
         </Layout>
